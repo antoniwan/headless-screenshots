@@ -1,5 +1,4 @@
 const puppeteer = require("puppeteer");
-const winston = require("winston");
 
 // create list of sites
 const stanleySites = require("./data/stanleySites");
