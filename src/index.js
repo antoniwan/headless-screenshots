@@ -33,7 +33,8 @@ const main = async list => {
     const page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 1024 });
     await page.goto(`https://${site}`, {
-      timeout: 0
+      timeout: 0,
+      waitUntil: "networkidle2"
     });
 
     try {
