@@ -14,7 +14,7 @@ exports.checkSiteList = (listName, siteList) => {
   return true;
 };
 
-exports.generateScreenshot = async (browser, site) => {
+exports.generateScreenshot = async site => {
   const todaysDate = new Date();
   const formattedTodaysDate = `${todaysDate.getFullYear()}_${todaysDate.getMonth() +
     1}_${todaysDate.getDate()}-`;

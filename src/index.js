@@ -1,53 +1,47 @@
 const puppeteer = require("puppeteer");
 const stanleySites = require("./data/stanleySites");
 const bdSites = require("./data/bdSites");
-const { generateScreenshot, checkSiteList } = require("./utils/misc");
+const { checkSiteList } = require("./utils/misc");
 
 const main = async () => {
+  let counter = 1;
   console.info(`Started running the headless-screenshots node app!`);
+
+  const todaysDate = new Date();
+  const formattedTodaysDate = `${todaysDate.getFullYear()}_${todaysDate.getMonth() +
+    1}_${todaysDate.getDate()}-`;
 
   checkSiteList("stanleytools.global", stanleySites);
   checkSiteList("blackandecker.global", bdSites);
-  const siteLists = stanleySites.concat(bdSites);
-  console.info(
-    `Generating screenshots for the ${siteLists.length} urls. This activity will take several minutes... \n`
-  );
 
-  puppeteer.launch().then(async browser => {
-    await stanleySites.map(async site => {
-      const todaysDate = new Date();
-      const formattedTodaysDate = `${todaysDate.getFullYear()}_${todaysDate.getMonth() +
-        1}_${todaysDate.getDate()}-`;
+  const browser = await puppeteer.launch();
 
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1200, height: 1024 });
-
-      try {
-        await page.goto(`https://${site}`);
-      } catch (e) {
-        console.error(`Couldn't navigate to https://${site}`);
-      }
-
-      try {
-        await page.click(".sbd-cookiesBarAgree");
-        await page.waitFor(1000);
-      } catch (e) {}
-
-      try {
-        await page.screenshot({
-          path: `screenshots/${formattedTodaysDate}--${site}.png`,
-          fullPage: true
-        });
-        console.log(
-          `Generated the screenshot for ${site} to "screenshots/${formattedTodaysDate}--${site}.png"`
-        );
-      } catch (e) {
-        console.error(`Error generating a screenshot for ${site}!`);
-        console.error(site, e);
-      }
+  stanleySites.map(async site => {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1200, height: 1024 });
+    await page.goto(`https://${site}`, {
+      timeout: 0
     });
 
-    await browser.close();
+    try {
+      await page.click(".sbd-cookiesBarAgree");
+      await page.waitFor(1000);
+    } catch (e) {}
+
+    await page.screenshot({
+      path: `screenshots/${formattedTodaysDate}--${site}.png`,
+      fullPage: true
+    });
+    console.log(
+      `Generated the 🎑 for ${counter} => "https://${site}" into 📁 => "screenshots/${formattedTodaysDate}--${site}.png"`
+    );
+
+    if (counter >= stanleySites.length) {
+      console.log("Process is now complete!");
+      await browser.close();
+    }
+
+    counter++;
   });
 };
 
