@@ -31,5 +31,4 @@ const bdSites = [
   `vn.blackanddecker.global`,
   `za.blackanddecker.global`
 ];
-
-exports.bdSites = bdSites;
+module.exports = bdSites;

@@ -32,4 +32,4 @@ const stanleySites = [
   `za.stanleytools.global`
 ];
 
-exports.stanleySites = stanleySites;
+module.exports = stanleySites;
