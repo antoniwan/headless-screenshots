@@ -8,8 +8,8 @@ exports.checkSiteList = (listName, siteList) => {
     return error;
   }
 
-  console.log(
-    `The '${listName}' list is valid and has ${siteList.length} urls!`
+  console.info(
+    `The '${listName}' list is valid and has ${siteList.length} urls!\n\n`
   );
   return true;
 };
