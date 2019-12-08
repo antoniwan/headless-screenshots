@@ -31,7 +31,7 @@ const main = async list => {
 
   urlList.map(async site => {
     const page = await browser.newPage();
-    await page.setViewport({ width: 1200, height: 1024 });
+    await page.setViewport({ width: 1400, height: 1024 });
     await page.goto(`https://${site}`, {
       timeout: 0,
       waitUntil: "networkidle2"
