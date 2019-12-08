@@ -5,6 +5,7 @@ const bdSites = require("./data/bdSites");
 const { checkSiteList } = require("./utils/misc");
 
 const main = async list => {
+  const browser = await puppeteer.launch();
   const todaysDate = new Date();
   const formattedTodaysDate = `${todaysDate.getFullYear()}_${todaysDate.getMonth() +
     1}_${todaysDate.getDate()}-`;
@@ -28,7 +29,6 @@ const main = async list => {
       break;
   }
 
-  const browser = await puppeteer.launch();
   urlList.map(async site => {
     const page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 1024 });
@@ -40,7 +40,9 @@ const main = async list => {
     try {
       await page.click(".sbd-cookiesBarAgree");
       await page.waitFor(1000);
-    } catch (e) {}
+    } catch (e) {
+      // handle any errors if the cookie bar is not available
+    }
 
     await page.screenshot({
       path: `screenshots/${formattedTodaysDate}--${site}.png`,

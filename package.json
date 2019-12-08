@@ -15,5 +15,8 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "puppeteer": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2"
   }
 }
